@@ -1,16 +1,199 @@
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="logo" href="{{ '/' | relative_url }}">
-      <svg class="logo-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/></svg>
-      <span>{{ site.title }}</span>
-    </a>
-    <nav class="site-nav">
-      {% for item in site.nav %}
-        {% assign active = false %}
-        {% if page.url contains item.url %}{% assign active = true %}{% endif %}
-        <a href="{{ item.url | relative_url }}" class="{% if active %}active{% endif %}">{{ item.title }}</a>
-      {% endfor %}
-      <a class="btn btn-small btn-dark" href="{{ '/feed.xml' | relative_url }}">订阅 RSS</a>
+<header class="site-header" id="site-header">
+  <div class="content-shell header-bar">
+    <!-- 左侧胶囊导航：文章、专题、项目 -->
+    <nav class="nav-group nav-left" aria-label="主导航左侧">
+      <a class="nav-pill {% if page.url == '/blog/' %}is-active{% endif %}" href="{{ '/blog/' | relative_url }}">
+        <span>文章</span>
+      </a>
+
+      <div class="nav-dropdown" data-dropdown>
+        <button class="nav-pill nav-dropdown-trigger {% if page.url == '/topics/' %}is-active{% endif %}" type="button" aria-expanded="false" aria-haspopup="true" data-dropdown-btn>
+          <span>专题</span>
+          <svg class="icon-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dropdown-panel" role="menu" data-dropdown-menu>
+          <div class="dropdown-header">专题索引 · Curated Topics</div>
+          {% for topic in site.topics %}
+          <a class="dropdown-item" role="menuitem" href="{{ '/blog/' | relative_url }}?category={{ topic.name | uri_escape }}">
+            <span class="dropdown-item-title">{{ topic.name }}</span>
+            <span class="dropdown-item-sub">{{ topic.en_name }}</span>
+          </a>
+          {% endfor %}
+          <div class="dropdown-Divider"></div>
+          <a class="dropdown-footer-link" role="menuitem" href="{{ '/topics/' | relative_url }}">
+            <span>浏览全部专题导览</span>
+            <span class="arrow-shift">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown" data-dropdown>
+        <button class="nav-pill nav-dropdown-trigger {% if page.url == '/projects/' %}is-active{% endif %}" type="button" aria-expanded="false" aria-haspopup="true" data-dropdown-btn>
+          <span>项目</span>
+          <svg class="icon-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dropdown-panel" role="menu" data-dropdown-menu>
+          <div class="dropdown-header">个人造物 · Independent Works</div>
+          {% for proj in site.projects_list limit: 3 %}
+          <a class="dropdown-item" role="menuitem" href="{{ '/projects/' | relative_url }}">
+            <span class="dropdown-item-title">{{ proj.title }}</span>
+            <span class="dropdown-item-sub">{{ proj.category }} · {{ proj.year }}</span>
+          </a>
+          {% endfor %}
+          <div class="dropdown-Divider"></div>
+          <a class="dropdown-footer-link" role="menuitem" href="{{ '/projects/' | relative_url }}">
+            <span>查看全部项目与实验</span>
+            <span class="arrow-shift">→</span>
+          </a>
+        </div>
+      </div>
     </nav>
+
+    <!-- 居中个人文字标志：严格固定于视口正中央，滚动时从完整名称平滑过渡为简写标志 -->
+    <a class="brand-center" href="{{ '/' | relative_url }}" aria-label="{{ site.title }} 首页">
+      <span class="brand-full" aria-hidden="false">ABAKA<span class="brand-slash">\</span>BOLU</span>
+      <span class="brand-compact" aria-hidden="true">A<span class="brand-slash">\</span>B</span>
+    </a>
+
+    <!-- 右侧胶囊导航：关于、搜索、菜单 -->
+    <div class="nav-group nav-right">
+      <a class="nav-pill nav-desktop-only {% if page.url == '/about/' %}is-active{% endif %}" href="{{ '/about/' | relative_url }}">
+        <span>关于</span>
+      </a>
+
+      <div class="nav-dropdown nav-desktop-only" data-dropdown>
+        <button class="nav-pill nav-dropdown-trigger" type="button" aria-expanded="false" aria-haspopup="true" data-dropdown-btn>
+          <span>订阅</span>
+          <svg class="icon-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dropdown-panel dropdown-panel-right" role="menu" data-dropdown-menu>
+          <div class="dropdown-header">保持联系 · Stay Connected</div>
+          <a class="dropdown-item" role="menuitem" href="{{ '/feed.xml' | relative_url }}">
+            <span class="dropdown-item-title">RSS 订阅源</span>
+            <span class="dropdown-item-sub">/feed.xml · 全文输出</span>
+          </a>
+          <a class="dropdown-item" role="menuitem" href="https://github.com/{{ site.social.github }}" target="_blank" rel="noopener">
+            <span class="dropdown-item-title">GitHub (@{{ site.social.github }})</span>
+            <span class="dropdown-item-sub">开源代码与写作仓库</span>
+          </a>
+          <a class="dropdown-item" role="menuitem" href="mailto:{{ site.social.email }}">
+            <span class="dropdown-item-title">发送邮件</span>
+            <span class="dropdown-item-sub">{{ site.social.email }}</span>
+          </a>
+        </div>
+      </div>
+
+      <button class="icon-btn" type="button" id="search-open-btn" aria-label="搜索文章 (快捷键 /)" title="搜索文章 (快捷键 /)">
+        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="7.8" cy="7.8" r="5.3"/>
+          <path d="M11.8 11.8L15.5 15.5"/>
+        </svg>
+      </button>
+
+      <button class="icon-btn menu-toggle-btn" type="button" id="menu-open-btn" aria-label="展开导航菜单" aria-expanded="false" aria-controls="menu-drawer">
+        <svg class="icon-menu-bars" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <path d="M2.5 5.2h13M2.5 9h13M2.5 12.8h9"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 展开式全站菜单抽屉（支持桌面端与移动端） -->
+  <div class="menu-drawer" id="menu-drawer" hidden aria-hidden="true">
+    <div class="content-shell menu-drawer-inner">
+      <div class="menu-grid">
+        <div class="menu-col">
+          <p class="menu-col-label">导航 · Navigation</p>
+          <ul class="menu-list">
+            <li><a href="{{ '/' | relative_url }}">首页 <span class="menu-en">Home</span></a></li>
+            <li><a href="{{ '/blog/' | relative_url }}">全部文章 <span class="menu-en">All Essays ({{ site.posts.size }})</span></a></li>
+            <li><a href="{{ '/topics/' | relative_url }}">专题导览 <span class="menu-en">Topics</span></a></li>
+            <li><a href="{{ '/projects/' | relative_url }}">个人项目 <span class="menu-en">Projects</span></a></li>
+            <li><a href="{{ '/about/' | relative_url }}">关于作者 <span class="menu-en">About</span></a></li>
+          </ul>
+        </div>
+        <div class="menu-col">
+          <p class="menu-col-label">四大专题 · Curated Series</p>
+          <ul class="menu-list">
+            {% for topic in site.topics %}
+            <li>
+              <a href="{{ '/blog/' | relative_url }}?category={{ topic.name | uri_escape }}">
+                {{ topic.name }}
+                <span class="menu-en">{{ topic.en_name }}</span>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="menu-col">
+          <p class="menu-col-label">最新文章 · Recent Writing</p>
+          <ul class="menu-list menu-list-compact">
+            {% for p in site.posts limit: 3 %}
+            <li>
+              <a href="{{ p.url | relative_url }}">
+                <span class="menu-post-title">{{ p.title }}</span>
+                <time class="menu-post-date">{{ p.date | date: "%Y.%m.%d" }}</time>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="menu-drawer-foot">
+        <span>{{ site.title }} · {{ site.subtitle }}</span>
+        <div class="menu-foot-links">
+          <a href="https://github.com/{{ site.social.github }}" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="mailto:{{ site.social.email }}">Email ↗</a>
+          <a href="{{ '/feed.xml' | relative_url }}">RSS ↗</a>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
+
+<!-- 全局即时搜索弹窗 -->
+<div class="search-modal" id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-modal-title" hidden>
+  <div class="search-backdrop" data-search-close></div>
+  <div class="search-dialog">
+    <div class="search-input-bar">
+      <svg class="search-input-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+        <circle cx="7.8" cy="7.8" r="5.3"/>
+        <path d="M11.8 11.8L15.5 15.5"/>
+      </svg>
+      <input
+        type="search"
+        id="global-search-input"
+        class="search-input"
+        placeholder="搜索文章标题、摘要、分类或标签…"
+        autocomplete="off"
+        aria-label="搜索文章"
+      >
+      <button class="search-close-btn" type="button" data-search-close aria-label="关闭搜索">ESC</button>
+    </div>
+    <div class="search-Quick-tags">
+      <span class="search-tag-label">快速筛选：</span>
+      {% for topic in site.topics %}
+      <button type="button" class="search-chip" data-search-quick="{{ topic.name }}">{{ topic.name }}</button>
+      {% endfor %}
+    </div>
+    <div class="search-results" id="global-search-results" role="region" aria-live="polite"></div>
+  </div>
+</div>
+
+<!-- 供前端即时搜索与筛选使用的文章索引数据 -->
+<script id="site-posts-data" type="application/json">
+[
+{% for post in site.posts %}
+  {
+    "title": {{ post.title | jsonify }},
+    "url": {{ post.url | relative_url | jsonify }},
+    "date": "{{ post.date | date: '%Y年%m月%d日' }}",
+    "dateIso": "{{ post.date | date: '%Y-%m-%d' }}",
+    "category": {{ post.category | default: '随笔' | jsonify }},
+    "readingTime": {{ post.reading_time | default: '6 分钟' | jsonify }},
+    "tags": {{ post.tags | jsonify }},
+    "description": {{ post.description | default: post.excerpt | strip_html | strip_newlines | truncate: 140 | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+{% endfor %}
+]
+</script>

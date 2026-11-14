@@ -2,38 +2,99 @@
 layout: default
 ---
 {% assign chars = content | strip_html | strip_newlines | size %}
-{% assign minutes = chars | divided_by: 400 | plus: 1 %}
-<article class="post">
-  <header class="post-header container-narrow">
-    <a class="back-link" href="{{ '/blog/' | relative_url }}">← 全部文章</a>
-    {% if page.category %}<span class="tag">{{ page.category }}</span>{% endif %}
-    <h1 class="post-title">{{ page.title }}</h1>
-    {% if page.description %}<p class="post-lead">{{ page.description }}</p>{% endif %}
-    <div class="post-meta">
-      <span>{{ page.author | default: site.author }}</span>
-      <span>·</span>
-      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y年%m月%d日" }}</time>
-      <span>·</span>
-      <span>约 {{ minutes }} 分钟阅读</span>
+{% assign minutes = chars | divided_by: 320 | plus: 3 %}
+
+<article class="article-page">
+  <!-- 文章头部：分类、日期、衬线大标题与导语 -->
+  <header class="article-header content-shell entry-fade entry-step-1">
+    <div class="article-header-inner">
+      <div class="article-breadcrumb">
+        <a class="back-pill" href="{{ '/blog/' | relative_url }}">
+          <span class="arrow-back">←</span>
+          <span>全部文章</span>
+        </a>
+        {% if page.category %}
+        <a class="category-pill" href="{{ '/blog/' | relative_url }}?category={{ page.category | uri_escape }}">
+          <span class="dots-pill" aria-hidden="true">•••</span>
+          <span>{{ page.category }}</span>
+        </a>
+        {% endif %}
+      </div>
+
+      <h1 class="article-title">{{ page.title }}</h1>
+
+      {% if page.description %}
+      <p class="article-lead">{{ page.description }}</p>
+      {% endif %}
+
+      <div class="article-meta-bar">
+        <div class="article-meta-left">
+          <span class="meta-author">{{ page.author | default: site.author }}</span>
+          <span class="meta-sep">·</span>
+          <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y年%m月%d日" }}</time>
+          <span class="meta-sep">·</span>
+          <span>约 {{ page.reading_time | default: minutes }} 分钟阅读</span>
+        </div>
+
+        {% if page.tags.size > 0 %}
+        <div class="article-meta-tags">
+          {% for tag in page.tags %}
+            <a class="tag-pill" href="{{ '/blog/' | relative_url }}?q={{ tag | uri_escape }}">#{{ tag }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
     </div>
   </header>
 
-  <div class="prose container-narrow">
-    {{ content }}
+  <!-- 文章长文阅读主体：720px 版心、18px 衬线正文、1.84 行高 -->
+  <div class="content-shell entry-fade entry-step-2">
+    <div class="article-prose prose">
+      {{ content }}
+    </div>
   </div>
 
-  {% if page.tags.size > 0 %}
-  <div class="container-narrow post-tags">
-    {% for tag in page.tags %}<span class="tag tag-outline"># {{ tag }}</span>{% endfor %}
-  </div>
-  {% endif %}
+  <!-- 文章尾部：标签汇总与上下篇切换 -->
+  <footer class="article-footer content-shell">
+    <div class="article-footer-inner">
+      {% if page.tags.size > 0 %}
+      <div class="article-tags-row">
+        <span class="tags-row-label">本文标签</span>
+        <div class="tags-row-list">
+          {% for tag in page.tags %}
+            <a class="tag-pill" href="{{ '/blog/' | relative_url }}?q={{ tag | uri_escape }}"># {{ tag }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
 
-  <nav class="post-nav container-narrow">
-    {% if page.previous %}
-      <a class="post-nav-item" href="{{ page.previous.url | relative_url }}"><small>上一篇</small><span>{{ page.previous.title }}</span></a>
-    {% else %}<span></span>{% endif %}
-    {% if page.next %}
-      <a class="post-nav-item next" href="{{ page.next.url | relative_url }}"><small>下一篇</small><span>{{ page.next.title }}</span></a>
-    {% endif %}
-  </nav>
+      <nav class="article-pager" aria-label="相邻文章导航">
+        {% if page.previous %}
+        <a class="pager-card pager-prev" href="{{ page.previous.url | relative_url }}">
+          <span class="pager-dir"><span class="arrow-back">←</span> 上一篇 · {{ page.previous.category }}</span>
+          <strong class="pager-title">{{ page.previous.title }}</strong>
+          <time class="pager-date">{{ page.previous.date | date: "%Y年%m月%d日" }}</time>
+        </a>
+        {% else %}
+        <div class="pager-card pager-empty">
+          <span class="pager-dir">已是第一篇归档文章</span>
+          <a class="pager-fallback-link" href="{{ '/blog/' | relative_url }}">返回文章索引 →</a>
+        </div>
+        {% endif %}
+
+        {% if page.next %}
+        <a class="pager-card pager-next" href="{{ page.next.url | relative_url }}">
+          <span class="pager-dir">下一篇 · {{ page.next.category }} <span class="arrow-shift">→</span></span>
+          <strong class="pager-title">{{ page.next.title }}</strong>
+          <time class="pager-date">{{ page.next.date | date: "%Y年%m月%d日" }}</time>
+        </a>
+        {% else %}
+        <div class="pager-card pager-next pager-empty">
+          <span class="pager-dir">已是最新一篇文章</span>
+          <a class="pager-fallback-link" href="{{ '/blog/' | relative_url }}">浏览更多归档 →</a>
+        </div>
+        {% endif %}
+      </nav>
+    </div>
+  </footer>
 </article>

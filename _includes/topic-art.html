@@ -1,0 +1,189 @@
+{% assign art_type = include.type | default: "architecture" %}
+{% if art_type == "architecture" %}
+<!-- 专题一：古典建筑柱式与几何制图网格（对应参考图一左一） -->
+<svg class="topic-svg" viewBox="0 0 360 456" width="360" height="456" role="img" aria-label="古典建筑线稿与制图网格插画">
+  <defs>
+    <pattern id="draft-grid" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M 16 0 L 0 0 0 16" fill="none" stroke="#9E8C72" stroke-width="0.6" opacity="0.55"/>
+    </pattern>
+  </defs>
+  <!-- 左半暖灰纸面 + 右侧制图方格纸 -->
+  <rect width="262" height="456" fill="#E3DDD3"/>
+  <rect x="262" width="98" height="456" fill="#D5C2A5"/>
+  <rect x="262" width="98" height="456" fill="url(#draft-grid)"/>
+  <line x1="262" y1="0" x2="262" y2="456" stroke="#8C7B65" stroke-width="0.8"/>
+
+  <!-- 建筑檐部与台基线稿 -->
+  <g stroke="#22201E" stroke-width="1.1" fill="none">
+    <line x1="0" y1="92" x2="215" y2="92"/>
+    <line x1="0" y1="100" x2="210" y2="100"/>
+    <line x1="0" y1="114" x2="202" y2="114"/>
+    <!-- 柱一（左侧） -->
+    <rect x="22" y="114" width="66" height="10" fill="#E3DDD3"/>
+    <path d="M27 124 L23 364 M83 124 L87 364"/>
+    <path d="M35 126 L32 364 M43 126 L41 364 M51 126 L50 364 M59 126 L60 364 M67 126 L69 364 M75 126 L78 364" stroke-width="0.75" opacity="0.8"/>
+    <!-- 柱二（右侧） -->
+    <rect x="128" y="114" width="66" height="10" fill="#E3DDD3"/>
+    <path d="M133 124 L129 364 M189 124 L193 364"/>
+    <path d="M141 126 L138 364 M149 126 L147 364 M157 126 L156 364 M165 126 L166 364 M173 126 L175 364 M181 126 L184 364" stroke-width="0.75" opacity="0.8"/>
+    <!-- 台基 -->
+    <rect x="0" y="364" width="212" height="14" fill="#E3DDD3"/>
+    <rect x="0" y="378" width="224" height="18" fill="#E3DDD3"/>
+    <line x1="0" y1="416" x2="242" y2="416"/>
+    <!-- 标尺刻度线 -->
+    <line x1="234" y1="114" x2="234" y2="396" stroke-dasharray="2 3" stroke-width="0.8"/>
+    <circle cx="234" cy="114" r="2.2" fill="#22201E"/>
+    <circle cx="234" cy="396" r="2.2" fill="#22201E"/>
+  </g>
+
+  <!-- 右侧几何圆弧与包络线 -->
+  <g stroke="#1E1C1A" stroke-width="1.15" fill="none">
+    <circle cx="332" cy="160" r="68"/>
+    <circle cx="348" cy="252" r="82"/>
+    <circle cx="318" cy="346" r="74"/>
+    <line x1="262" y1="160" x2="360" y2="160" stroke-width="0.6" stroke-dasharray="3 3"/>
+    <line x1="262" y1="252" x2="360" y2="252" stroke-width="0.6" stroke-dasharray="3 3"/>
+  </g>
+</svg>
+
+{% elsif art_type == "compass" %}
+<!-- 专题二：古典罗盘星图与双色点阵纸面（对应参考图一左二） -->
+<svg class="topic-svg" viewBox="0 0 360 456" width="360" height="456" role="img" aria-label="古典航海罗盘与星图插画">
+  <defs>
+    <pattern id="dot-matrix" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="0.85" fill="#8C826B" opacity="0.55"/>
+    </pattern>
+  </defs>
+  <!-- 左半米白点阵 + 右半暖赭黄 -->
+  <rect width="180" height="456" fill="#FAF6EC"/>
+  <rect x="180" width="180" height="456" fill="#F2D888"/>
+  <rect width="360" height="456" fill="url(#dot-matrix)"/>
+
+  <!-- 底部古典罗盘主体 -->
+  <g transform="translate(180, 355)" stroke="#191816" fill="none">
+    <circle r="168" stroke-width="1.8"/>
+    <circle r="160" stroke-width="0.9"/>
+    <circle r="138" stroke-width="0.9"/>
+    <circle r="112" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <circle r="76" stroke-width="0.9"/>
+    <circle r="18" stroke-width="1.2" fill="#FAF6EC"/>
+
+    <!-- 外圈刻度 -->
+    {% for i in (0..35) %}
+      {% assign deg = i | times: 10 %}
+      <g transform="rotate({{ deg }})">
+        <line x1="0" y1="-160" x2="0" y2="-148" stroke-width="1"/>
+        <line x1="0" y1="-138" x2="0" y2="-130" stroke-width="0.75"/>
+      </g>
+    {% endfor %}
+
+    <!-- 八向罗盘星芒 -->
+    {% for j in (0..7) %}
+      {% assign rdeg = j | times: 45 %}
+      <g transform="rotate({{ rdeg }})">
+        <polygon points="0,-134 14,-26 0,-18" fill="#191816"/>
+        <polygon points="0,-134 -14,-26 0,-18" fill="#FAF6EC" stroke="#191816" stroke-width="1"/>
+      </g>
+    {% endfor %}
+
+    <!-- 次级十六向星芒 -->
+    {% for k in (0..7) %}
+      {% assign sdeg = k | times: 45 | plus: 22.5 %}
+      <g transform="rotate({{ sdeg }})">
+        <polygon points="0,-106 8,-26 0,-18" fill="#191816" opacity="0.82"/>
+        <polygon points="0,-106 -8,-26 0,-18" fill="none" stroke="#191816" stroke-width="0.8"/>
+      </g>
+    {% endfor %}
+
+    <!-- 方位铭文 -->
+    <text x="0" y="-142" text-anchor="middle" font-size="9" font-family="Georgia, serif" fill="#191816" stroke="none" font-weight="bold">NORTH</text>
+    <text x="98" y="-98" text-anchor="middle" font-size="8" font-family="Georgia, serif" fill="#191816" stroke="none" transform="rotate(45 98 -98)">N.E.</text>
+    <text x="-98" y="-98" text-anchor="middle" font-size="8" font-family="Georgia, serif" fill="#191816" stroke="none" transform="rotate(-45 -98 -98)">N.W.</text>
+  </g>
+</svg>
+
+{% elsif art_type == "nautilus" %}
+<!-- 专题三：鹦鹉螺黄金螺线与鼠尾草绿拼贴（对应参考图一右二） -->
+<svg class="topic-svg" viewBox="0 0 360 456" width="360" height="456" role="img" aria-label="鹦鹉螺黄金分割螺线插画">
+  <defs>
+    <radialGradient id="nautilus-glow" cx="58%" cy="54%" r="48%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.96"/>
+      <stop offset="35%" stop-color="#E5E2D9" stop-opacity="0.72"/>
+      <stop offset="75%" stop-color="#78756E" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#1E1D1B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- 左侧鼠尾草绿宽带 + 右侧深炭黑底色 -->
+  <rect width="98" height="456" fill="#529B59"/>
+  <rect x="98" width="262" height="456" fill="#211F1D"/>
+
+  <!-- 右上角灰白几何切片 -->
+  <path d="M298 0 L360 0 L360 220 C318 190 292 120 298 0 Z" fill="#9E9B95" opacity="0.55"/>
+
+  <!-- 鹦鹉螺透光腔体 -->
+  <g transform="translate(228, 252)">
+    <circle cx="0" cy="0" r="136" fill="url(#nautilus-glow)"/>
+    <!-- 螺旋外壳与腔室隔板 -->
+    <path d="M 0,0
+             C 12,-12 28,-8 32,10
+             C 38,36 12,62 -20,58
+             C -64,52 -92,4 -80,-46
+             C -64,-112 10,-148 82,-126
+             C 156,-102 192,-12 162,72
+             C 128,162 12,198 -86,154
+             C -164,118 -196,18 -152,-76"
+          fill="none" stroke="#F5F3EB" stroke-width="2.2" opacity="0.9"/>
+    {% for c in (0..17) %}
+      {% assign angle = c | times: 22 %}
+      {% assign scale = c | times: 0.085 | plus: 0.22 %}
+      <g transform="rotate({{ angle }}) scale({{ scale }})">
+        <path d="M 0,0 Q 42,-28 72,-82" fill="none" stroke="#F5F3EB" stroke-width="1.6" opacity="0.62"/>
+        <ellipse cx="38" cy="-38" rx="28" ry="16" fill="none" stroke="#F5F3EB" stroke-width="0.9" opacity="0.35" transform="rotate(-35 38 -38)"/>
+      </g>
+    {% endfor %}
+    <circle cx="4" cy="-2" r="16" fill="#FAF9F5"/>
+  </g>
+</svg>
+
+{% else %}
+<!-- 专题四：几何色块与古典云图拼贴（对应参考图一右一） -->
+<svg class="topic-svg" viewBox="0 0 360 456" width="360" height="456" role="img" aria-label="几何色块与自然肌理拼贴插画">
+  <defs>
+    <linearGradient id="cloud-warm" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B7D6B"/>
+      <stop offset="50%" stop-color="#564E43"/>
+      <stop offset="100%" stop-color="#2D2823"/>
+    </linearGradient>
+    <linearGradient id="cloud-sunset" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#C89F81"/>
+      <stop offset="55%" stop-color="#A67B5B"/>
+      <stop offset="100%" stop-color="#5E493A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 基底油画感暖褐云层 -->
+  <rect width="360" height="456" fill="url(#cloud-warm)"/>
+  <circle cx="95" cy="245" r="78" fill="#B89F82" opacity="0.35"/>
+  <circle cx="140" cy="285" r="64" fill="#3D352E" opacity="0.55"/>
+  <circle cx="62" cy="310" r="58" fill="#2A241F" opacity="0.65"/>
+
+  <!-- 秩序化几何色块矩阵 -->
+  <!-- 顶部行 -->
+  <rect x="0" y="0" width="76" height="58" fill="#7D756C"/>
+  <rect x="216" y="0" width="144" height="58" fill="#DFDDD6"/>
+  <!-- 第二行 -->
+  <rect x="76" y="58" width="140" height="76" fill="#BFD5D2"/>
+  <rect x="216" y="58" width="144" height="76" fill="#827B75"/>
+  <!-- 第三行 -->
+  <rect x="0" y="134" width="76" height="92" fill="#6495C2"/>
+  <rect x="168" y="134" width="48" height="56" fill="#B59882"/>
+  <rect x="216" y="134" width="144" height="92" fill="#6495C2"/>
+  <!-- 第四行 -->
+  <rect x="216" y="226" width="72" height="148" fill="#6495C2"/>
+  <rect x="288" y="226" width="72" height="148" fill="url(#cloud-sunset)"/>
+  <!-- 第五行 -->
+  <rect x="0" y="302" width="112" height="106" fill="#BFD5D2"/>
+  <rect x="112" y="374" width="104" height="82" fill="#6495C2"/>
+  <rect x="216" y="374" width="144" height="82" fill="#5D534A"/>
+</svg>
+{% endif %}

@@ -1,63 +1,122 @@
 # ============================================================
-#  站点基础配置 —— 修改这里的内容即可个性化你的博客
-#  注意：修改本文件后，本地预览需要重启 jekyll serve 才会生效
+#  站点核心配置文件 (_config.yml)
+#  替换个人内容时，优先修改此文件及 _posts/ 目录下的 Markdown 文章
 # ============================================================
 
-title: 我的博客
-author: 你的名字
-description: 记录思考、技术与生活的个人博客。
-lang: zh-CN
-timezone: Asia/Shanghai
+title: "Abaka Bolu"
+short_mark: "AB\\"
+subtitle: "理性思考 · 长期写作 · 造物笔记"
+author: "Abaka Bolu"
+description: "在这里，记录技术，也记录生活。用持续的阅读、写作与实践，理解正在变化的世界。"
+lang: "zh-CN"
+timezone: "Asia/Shanghai"
 
-# 部署地址
-# - 仓库名为 "用户名.github.io"：url 填 https://用户名.github.io，baseurl 留空 ""
-# - 仓库名为其他名字（如 blog）：url 同上，baseurl 填 "/blog"
-url: "https://yourname.github.io"
-baseurl: ""
+# GitHub Pages 部署地址配置
+# 当前仓库为 https://github.com/AbakaBolu/My-Blog.git
+# 若将来仓库改名为 AbakaBolu.github.io，请将 baseurl 改为 ""
+url: "https://abakabolu.github.io"
+baseurl: "/My-Blog"
 
-# 首页大标题区域
-hero:
-  eyebrow: 个人博客
-  title: 在这里，认真思考，慢慢写作。
-  subtitle: 关于技术、阅读与生活的长期记录。每一篇文章，都是一次把想法说清楚的尝试。
+# 首屏混合字体宣言（前半句无衬线粗体，后半句书籍衬线）
+manifesto:
+  sans_lead: "在这里，记录技术，也记录生活。"
+  serif_body: "用持续的阅读、写作与实践，理解正在变化的世界。"
 
-# 顶部导航
-nav:
-  - title: 文章
-    url: /blog/
-  - title: 关于
-    url: /about/
+# 首屏大幅主视觉（精选文章）
+featured_hero:
+  eyebrow: "精选长文 · Featured Essay"
+  title_line_1: "在不确定的世界里，"
+  title_line_2: "保持好奇"
+  summary: "当工具与信息以指数级速度迭代，真正稀缺的不再是答案本身，而是提出好问题的耐心、跨学科的直觉，以及慢下来构建系统的定力。"
+  post_url: "/2026/11/stay-curious-in-an-uncertain-world/"
+  primary_cta: "阅读全文"
+  secondary_cta: "浏览专题"
+  secondary_url: "/topics/"
 
-# 页脚社交链接（不需要的留空即可）
+# 四大专题入口配置（对应首页四列纵向视觉卡片）
+topics:
+  - slug: "tech"
+    name: "技术札记"
+    en_name: "Systems & Craft"
+    art: "architecture"
+    description: "软件架构、类型系统、编译器原理与现代前端工程的深度复盘。"
+  - slug: "reading"
+    name: "阅读笔记"
+    en_name: "Reading & Ideas"
+    art: "compass"
+    description: "科学史、认知科学、技术哲学与经典非虚构作品的读书札记。"
+  - slug: "life"
+    name: "生活观察"
+    en_name: "Field Notes"
+    art: "nautilus"
+    description: "城市漫步、器物审美、日常秩序与慢节奏生活的切片记录。"
+  - slug: "projects"
+    name: "个人项目"
+    en_name: "Independent Works"
+    art: "mosaic"
+    description: "开源小工具、数字花园实验、排版研究与独立产品的构建日志。"
+
+# 个人项目展示（用于 /projects/ 页面及导航菜单）
+projects_list:
+  - title: "Chronicle Press"
+    category: "排版工具"
+    year: "2026"
+    summary: "面向中英混排长文写作的极简静态出版主题，探索纸本阅读感在屏幕端的还原。"
+    tech: ["Jekyll", "CSS Grid", "Typography"]
+    link: "https://github.com/AbakaBolu/My-Blog"
+  - title: "Margin Note Indexer"
+    category: "知识工具"
+    year: "2026"
+    summary: "将本地 Markdown 读书批注自动构建为双向链接图谱与概念索引的命令行工具。"
+    tech: ["TypeScript", "AST", "CLI"]
+    link: "https://github.com/AbakaBolu"
+  - title: "Quiet RSS Reader"
+    category: "桌面应用"
+    year: "2025"
+    summary: "无算法推荐、无未读红点焦虑的安静型 RSS 阅读器，支持全文衬线排版与离线归档。"
+    tech: ["Rust", "Tauri", "SQLite"]
+    link: "https://github.com/AbakaBolu"
+  - title: "Grid & Paper Specimen"
+    category: "设计研究"
+    year: "2025"
+    summary: "瑞士网格系统与中文古典版心比例的交互式对照实验集。"
+    tech: ["SVG", "Canvas", "Editorial"]
+    link: "https://github.com/AbakaBolu"
+
+# 社交与联系方式
 social:
-  github: yourname
-  email: you@example.com
+  github: "AbakaBolu"
+  email: "hello@abakabolu.dev"
+  location: "中国 · 独立写作者与工程师"
 
-# 文章网址格式
+# 固定链接格式
 permalink: /:year/:month/:title/
 
-# Markdown 与代码高亮
+# Markdown 渲染与代码高亮
 markdown: kramdown
 kramdown:
   input: GFM
   syntax_highlighter: rouge
 highlighter: rouge
 
-# GitHub Pages 官方支持的插件
+# GitHub Pages 官方插件
 plugins:
-  - jekyll-feed      # 自动生成 RSS：/feed.xml
-  - jekyll-seo-tag   # 自动生成 SEO 标签
+  - jekyll-feed
+  - jekyll-seo-tag
 
-# 文章默认设置
 defaults:
   - scope:
       path: ""
-      type: posts
+      type: "posts"
     values:
-      layout: post
+      layout: "post"
 
 exclude:
   - README.md
   - Gemfile
   - Gemfile.lock
   - vendor
+  - node_modules
+  - scripts
+  - package.json
+  - package-lock.json

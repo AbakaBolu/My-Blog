@@ -1,30 +1,68 @@
 ---
 layout: default
-title: 文章
+title: 全部文章
+description: 按专题分类与关键词检索全部写作归档。
 permalink: /blog/
 ---
-<section class="container page-hero">
-  <p class="eyebrow">归档</p>
-  <h1 class="hero-title small">全部文章</h1>
-  <p class="hero-subtitle">共 {{ site.posts.size }} 篇，按时间倒序排列。</p>
+
+<section class="page-intro content-shell entry-fade entry-step-1">
+  <div class="page-intro-top">
+    <span class="dots-pill" aria-hidden="true">•••</span>
+    <span class="page-eyebrow">写作归档 · Writing Index</span>
+  </div>
+  <h1 class="page-display-title">
+    <span class="manifesto-sans">全部文章与札记。</span><span class="manifesto-serif">按专题检索，或输入关键词查找感兴趣的话题。</span>
+  </h1>
+
+  <!-- 筛选与即时搜索工具栏 -->
+  <div class="filter-toolbar" role="search" aria-label="文章筛选与搜索">
+    <div class="filter-pills" id="category-filter-bar" role="tablist" aria-label="按专题分类筛选">
+      <button type="button" class="filter-pill is-active" data-filter-cat="all" role="tab" aria-selected="true">
+        <span>全部</span>
+        <span class="pill-count">{{ site.posts.size }}</span>
+      </button>
+      {% for topic in site.topics %}
+        {% assign cat_posts = site.posts | where: "category", topic.name %}
+        <button type="button" class="filter-pill" data-filter-cat="{{ topic.name }}" role="tab" aria-selected="false">
+          <span>{{ topic.name }}</span>
+          <span class="pill-count">{{ cat_posts.size }}</span>
+        </button>
+      {% endfor %}
+    </div>
+
+    <div class="inline-search-box">
+      <svg class="inline-search-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+        <circle cx="7.8" cy="7.8" r="5.3"/>
+        <path d="M11.8 11.8L15.5 15.5"/>
+      </svg>
+      <input
+        type="search"
+        id="blog-filter-input"
+        class="inline-search-input"
+        placeholder="搜索标题、摘要或 #标签…"
+        autocomplete="off"
+        aria-label="在文章列表中搜索"
+      >
+      <button type="button" class="inline-search-clear" id="blog-filter-clear" hidden aria-label="清除搜索条件">清除</button>
+    </div>
+  </div>
+
+  <div class="filter-status-bar" id="filter-status-bar" aria-live="polite">
+    <span id="filter-status-text">当前显示全部 {{ site.posts.size }} 篇文章</span>
+  </div>
 </section>
 
-<section class="container archive">
-  {% assign years = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
-  {% for year in years %}
-  <div class="archive-year">
-    <h2>{{ year.name }}</h2>
-    <ul>
-      {% for post in year.items %}
-      <li>
-        <a href="{{ post.url | relative_url }}">
-          <time>{{ post.date | date: "%m月%d日" }}</time>
-          <span class="archive-title">{{ post.title }}</span>
-          {% if post.category %}<span class="tag">{{ post.category }}</span>{% endif %}
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
+<!-- 文章三列卡片网格 -->
+<section class="blog-index-section content-shell entry-fade entry-step-2">
+  <div class="recent-grid" id="blog-cards-grid">
+    {% for post in site.posts %}
+      {% include post-card.html post=post %}
+    {% endfor %}
   </div>
-  {% endfor %}
+
+  <div class="empty-filter-state" id="blog-empty-state" hidden>
+    <p class="empty-state-title">没有找到匹配的文章</p>
+    <p class="empty-state-sub">请尝试切换上方的专题分类，或清除搜索关键词。</p>
+    <button type="button" class="hero-btn hero-btn-dark" id="reset-all-filters">重置全部筛选</button>
+  </div>
 </section>

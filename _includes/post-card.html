@@ -1,7 +1,37 @@
 {% assign p = include.post %}
-<a class="post-card" href="{{ p.url | relative_url }}">
-  {% if p.category %}<span class="tag">{{ p.category }}</span>{% endif %}
-  <h3>{{ p.title }}</h3>
-  <p>{{ p.description | default: p.excerpt | strip_html | strip_newlines | truncate: 90 }}</p>
-  <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%Y年%m月%d日" }}</time>
-</a>
+{% assign chars = p.content | strip_html | strip_newlines | size %}
+{% assign est_min = chars | divided_by: 320 | plus: 3 %}
+<article class="post-card reveal-item" data-category="{{ p.category }}">
+  <div class="card-top">
+    <div class="card-meta-row">
+      <span class="dots-pill" aria-hidden="true">•••</span>
+      <span class="card-category">{{ p.category | default: "随笔" }}</span>
+      <time class="card-date" datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%Y年%m月%d日" }}</time>
+    </div>
+    <h3 class="card-title">
+      <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+    </h3>
+    <p class="card-excerpt">
+      {{ p.description | default: p.excerpt | strip_html | strip_newlines | truncate: 110 }}
+    </p>
+  </div>
+
+  <div class="card-bottom">
+    <div class="card-spec-row">
+      <span class="spec-label">阅读时长</span>
+      <span class="spec-value">约 {{ p.reading_time | default: est_min }} 分钟</span>
+    </div>
+    <div class="card-spec-row">
+      <span class="spec-label">核心标签</span>
+      <span class="spec-value spec-tags">
+        {% for t in p.tags limit: 2 %}
+          <a href="{{ '/blog/' | relative_url }}?q={{ t | uri_escape }}" class="spec-tag-link">{{ t }} <span class="spec-arrow">→</span></a>
+        {% endfor %}
+      </span>
+    </div>
+    <a class="card-read-btn" href="{{ p.url | relative_url }}">
+      <span>阅读全文</span>
+      <span class="arrow-shift" aria-hidden="true">→</span>
+    </a>
+  </div>
+</article>

@@ -1,43 +1,143 @@
 ---
 layout: default
 ---
-<section class="hero container">
-  <p class="eyebrow">{{ site.hero.eyebrow }}</p>
-  <h1 class="hero-title">{{ site.hero.title }}</h1>
-  <p class="hero-subtitle">{{ site.hero.subtitle }}</p>
-  <div class="hero-actions">
-    <a class="btn btn-dark" href="{{ '/blog/' | relative_url }}">阅读文章</a>
-    <a class="btn btn-ghost" href="{{ '/about/' | relative_url }}">关于我 →</a>
+
+<!-- 1. 首屏混合字体宣言：前半句无衬线粗体 + 后半句书籍衬线，同一连续段落自然换行 -->
+<section class="manifesto-section content-shell" aria-label="站点宣言">
+  <p class="manifesto-paragraph entry-fade entry-step-1">
+    <span class="manifesto-sans">{{ site.manifesto.sans_lead }}</span><span class="manifesto-serif">{{ site.manifesto.serif_body }}</span>
+  </p>
+</section>
+
+<!-- 2. 精选文章大幅主视觉：低饱和地平线曲面 + 中下部衬线大标题与真实 HTML 文字 -->
+<section class="featured-hero-section content-shell entry-fade entry-step-2" aria-label="精选文章">
+  <div class="hero-stage" id="hero-stage">
+    <!-- 具有极缓慢呼吸位移的 SVG 曲面地平线与肌理背景 -->
+    <div class="hero-art-layer" id="hero-art-layer" aria-hidden="true">
+      <svg class="hero-landscape-svg" viewBox="0 0 1440 820" preserveAspectRatio="xMidYMid slice" width="1440" height="820">
+        <defs>
+          <linearGradient id="sky-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#877C6C"/>
+            <stop offset="46%" stop-color="#9A836B"/>
+            <stop offset="76%" stop-color="#B78A62"/>
+            <stop offset="100%" stop-color="#C69469"/>
+          </linearGradient>
+          <radialGradient id="horizon-glow" cx="50%" cy="68%" r="55%">
+            <stop offset="0%" stop-color="#E4B07E" stop-opacity="0.52"/>
+            <stop offset="60%" stop-color="#B6855D" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#877C6C" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="sea-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#2D526B"/>
+            <stop offset="38%" stop-color="#22435B"/>
+            <stop offset="100%" stop-color="#162E40"/>
+          </linearGradient>
+        </defs>
+
+        <!-- 暖赭石天空与地平线柔光 -->
+        <rect width="1440" height="820" fill="url(#sky-grad)"/>
+        <rect width="1440" height="820" fill="url(#horizon-glow)"/>
+
+        <!-- 极缓慢呼吸的弧形海平面与流体波纹 -->
+        <g class="hero-horizon-group">
+          <path d="M -120,620 Q 720,445 1560,620 L 1560,860 L -120,860 Z" fill="#8C745E" opacity="0.45"/>
+          <path d="M -120,628 Q 720,454 1560,628 L 1560,860 L -120,860 Z" fill="url(#sea-grad)"/>
+
+          <!-- 细腻的曲面水波纹理线 -->
+          <g fill="none" stroke="#6B92AC" stroke-width="1" opacity="0.22" class="hero-wave-lines">
+            <path d="M -80,652 Q 720,482 1520,652"/>
+            <path d="M -80,678 Q 720,512 1520,678"/>
+            <path d="M -80,708 Q 720,546 1520,708"/>
+            <path d="M -80,742 Q 720,584 1520,742"/>
+            <path d="M -80,780 Q 720,628 1520,780"/>
+            <path d="M -80,822 Q 720,676 1520,822"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <!-- 画面中下部的真实 HTML 标题、摘要与双按钮 -->
+    <div class="hero-overlay-content">
+      <h1 class="hero-display-title">
+        <span class="hero-line-1">{{ site.featured_hero.title_line_1 }}</span>
+        <span class="hero-line-2">{{ site.featured_hero.title_line_2 }}</span>
+      </h1>
+      <p class="hero-display-summary">
+        {{ site.featured_hero.summary }}
+      </p>
+      <div class="hero-cta-group">
+        <a class="hero-btn hero-btn-light" href="{{ site.featured_hero.post_url | relative_url }}">
+          <span>{{ site.featured_hero.primary_cta }}</span>
+        </a>
+        <a class="hero-btn hero-btn-dark" href="{{ site.featured_hero.secondary_url | relative_url }}">
+          <span>{{ site.featured_hero.secondary_cta }}</span>
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 
-{% assign featured = site.posts.first %}
-{% if featured %}
-<section class="container section">
-  <a class="featured-card" href="{{ featured.url | relative_url }}">
-    <div class="featured-visual" aria-hidden="true">
-      <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="62" /><path d="M100 20 L112 88 L180 100 L112 112 L100 180 L88 112 L20 100 L88 88 Z"/></svg>
-    </div>
-    <div class="featured-body">
-      <span class="tag">最新 · {{ featured.category | default: "文章" }}</span>
-      <h2>{{ featured.title }}</h2>
-      <p>{{ featured.description | default: featured.excerpt | strip_html | strip_newlines | truncate: 140 }}</p>
-      <time datetime="{{ featured.date | date_to_xmlschema }}">{{ featured.date | date: "%Y年%m月%d日" }}</time>
-    </div>
-  </a>
-</section>
-{% endif %}
-
-<section class="container section">
-  <div class="section-head">
-    <h2>近期文章</h2>
-    <a class="link-arrow" href="{{ '/blog/' | relative_url }}">查看全部 →</a>
-  </div>
-  <div class="post-grid">
-    {% for post in site.posts offset: 1 limit: 6 %}
+<!-- 3. 最近文章：三列浅米色等高卡片（对照参考图一上半部分） -->
+<section class="recent-section content-shell entry-fade entry-step-3 reveal-section" aria-label="最近文章">
+  <div class="recent-grid">
+    {% for post in site.posts limit: 3 %}
       {% include post-card.html post=post %}
-    {% else %}
-      <p class="muted">更多文章即将到来。</p>
+    {% endfor %}
+  </div>
+
+  <!-- 其余近期文章紧凑列表入口 -->
+  <div class="more-writing-bar reveal-item">
+    <div class="more-writing-left">
+      <span class="dots-pill" aria-hidden="true">•••</span>
+      <span class="more-writing-label">更多近期文章</span>
+      <span class="more-writing-count">共 {{ site.posts.size }} 篇归档</span>
+    </div>
+    <div class="more-writing-links">
+      {% for post in site.posts offset: 3 limit: 3 %}
+        <a class="inline-post-chip" href="{{ post.url | relative_url }}">
+          <span>{{ post.title | truncate: 20 }}</span>
+          <span class="arrow-shift">→</span>
+        </a>
+      {% endfor %}
+      <a class="view-all-link" href="{{ '/blog/' | relative_url }}">
+        <span>查看全部文章</span>
+        <span class="arrow-shift">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 4. 专题入口：顶部分割线 + 四列纵向视觉卡片（对照参考图一下半部分） -->
+<section class="topics-section content-shell reveal-section" aria-label="专题入口">
+  <div class="section-top-rule">
+    <h2 class="section-kicker">探索专题</h2>
+    <a class="section-more-link" href="{{ '/topics/' | relative_url }}">
+      <span>全部专题与索引</span>
+      <span class="arrow-shift">→</span>
+    </a>
+  </div>
+
+  <div class="topics-grid">
+    {% for topic in site.topics %}
+      {% assign topic_posts = site.posts | where: "category", topic.name %}
+      <a class="topic-card reveal-item" href="{{ '/blog/' | relative_url }}?category={{ topic.name | uri_escape }}">
+        <div class="topic-card-head">
+          <span class="dots-pill" aria-hidden="true">•••</span>
+          <span class="topic-head-label">{{ topic.name }}</span>
+        </div>
+
+        <div class="topic-art-frame">
+          {% include topic-art.html type=topic.art %}
+        </div>
+
+        <div class="topic-card-body">
+          <div class="topic-title-row">
+            <h3 class="topic-title">{{ topic.name }}</h3>
+            <span class="topic-count">{{ topic_posts.size }} 篇 <span class="arrow-shift">→</span></span>
+          </div>
+          <p class="topic-desc">{{ topic.description }}</p>
+        </div>
+      </a>
     {% endfor %}
   </div>
 </section>

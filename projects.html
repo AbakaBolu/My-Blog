@@ -1,0 +1,51 @@
+---
+layout: default
+title: 个人项目
+description: 围绕排版实验、知识工具与数字阅读构建的独立软件与研究。
+permalink: /projects/
+---
+
+<section class="page-intro content-shell entry-fade entry-step-1">
+  <div class="page-intro-top">
+    <span class="dots-pill" aria-hidden="true">•••</span>
+    <span class="page-eyebrow">独立造物 · Independent Works</span>
+  </div>
+  <h1 class="page-display-title">
+    <span class="manifesto-sans">写代码是另一种写作。</span><span class="manifesto-serif">这里收录我维护的开源小工具、排版实验与独立软件。</span>
+  </h1>
+</section>
+
+<section class="projects-section content-shell entry-fade entry-step-2">
+  <div class="projects-grid">
+    {% for proj in site.projects_list %}
+    <article class="post-card project-card reveal-item">
+      <div class="card-top">
+        <div class="card-meta-row">
+          <span class="dots-pill" aria-hidden="true">•••</span>
+          <span class="card-category">{{ proj.category }}</span>
+          <span class="card-date">{{ proj.year }}</span>
+        </div>
+        <h2 class="card-title">
+          <a href="{{ proj.link }}" target="_blank" rel="noopener">{{ proj.title }}</a>
+        </h2>
+        <p class="card-excerpt">{{ proj.summary }}</p>
+      </div>
+
+      <div class="card-bottom">
+        <div class="card-spec-row">
+          <span class="spec-label">技术栈</span>
+          <span class="spec-value">{{ proj.tech | join: " · " }}</span>
+        </div>
+        <div class="card-spec-row">
+          <span class="spec-label">开源状态</span>
+          <span class="spec-value">MIT License · 持续维护</span>
+        </div>
+        <a class="card-read-btn" href="{{ proj.link }}" target="_blank" rel="noopener">
+          <span>访问项目仓库</span>
+          <span class="arrow-shift" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>

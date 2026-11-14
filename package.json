@@ -1,0 +1,11 @@
+{
+  "name": "abakabolu-editorial-blog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Anthropic-inspired editorial personal blog for GitHub Pages (Jekyll + Zero-dependency Node local preview)",
+  "scripts": {
+    "dev": "node scripts/preview.mjs --serve",
+    "build": "node scripts/preview.mjs --build",
+    "preview": "node scripts/preview.mjs --serve"
+  }
+}

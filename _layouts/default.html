@@ -2,10 +2,12 @@
 <html lang="{{ site.lang | default: 'zh-CN' }}">
 {% include head.html %}
 <body>
+  <a class="skip-link" href="#main-content">跳至正文内容</a>
   {% include header.html %}
-  <main class="site-main">
+  <main class="site-main" id="main-content">
     {{ content }}
   </main>
   {% include footer.html %}
+  <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
 </body>
 </html>

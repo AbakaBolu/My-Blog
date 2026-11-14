@@ -1,0 +1,66 @@
+---
+layout: default
+title: 专题导览
+description: 按技术札记、阅读笔记、生活观察与个人项目四个维度组织的长期写作线索。
+permalink: /topics/
+---
+
+<section class="page-intro content-shell entry-fade entry-step-1">
+  <div class="page-intro-top">
+    <span class="dots-pill" aria-hidden="true">•••</span>
+    <span class="page-eyebrow">专题导览 · Curated Series</span>
+  </div>
+  <h1 class="page-display-title">
+    <span class="manifesto-sans">四个长期关注的母题。</span><span class="manifesto-serif">把零散的经验与阅读编织成有脉络的知识图谱。</span>
+  </h1>
+</section>
+
+<section class="topics-section content-shell entry-fade entry-step-2">
+  <div class="topics-grid">
+    {% for topic in site.topics %}
+      {% assign topic_posts = site.posts | where: "category", topic.name %}
+      <a class="topic-card" href="#topic-{{ topic.slug }}">
+        <div class="topic-card-head">
+          <span class="dots-pill" aria-hidden="true">•••</span>
+          <span class="topic-head-label">{{ topic.name }}</span>
+        </div>
+        <div class="topic-art-frame">
+          {% include topic-art.html type=topic.art %}
+        </div>
+        <div class="topic-card-body">
+          <div class="topic-title-row">
+            <h3 class="topic-title">{{ topic.name }}</h3>
+            <span class="topic-count">{{ topic_posts.size }} 篇 <span class="arrow-shift">↓</span></span>
+          </div>
+          <p class="topic-desc">{{ topic.description }}</p>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="topics-detail-section content-shell">
+  {% for topic in site.topics %}
+    {% assign topic_posts = site.posts | where: "category", topic.name %}
+    <div class="topic-detail-block reveal-section" id="topic-{{ topic.slug }}">
+      <div class="section-top-rule">
+        <div>
+          <span class="dots-pill" aria-hidden="true">•••</span>
+          <span class="topic-en-badge">{{ topic.en_name }}</span>
+          <h2 class="topic-section-title">{{ topic.name }}</h2>
+          <p class="topic-section-sub">{{ topic.description }}</p>
+        </div>
+        <a class="section-more-link" href="{{ '/blog/' | relative_url }}?category={{ topic.name | uri_escape }}">
+          <span>在文章页筛选此专题</span>
+          <span class="arrow-shift">→</span>
+        </a>
+      </div>
+
+      <div class="recent-grid">
+        {% for post in topic_posts %}
+          {% include post-card.html post=post %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</section>
