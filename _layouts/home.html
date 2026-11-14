@@ -1,0 +1,45 @@
+---
+layout: default
+---
+<section class="hero container">
+  <p class="eyebrow">{{ site.hero.eyebrow }}</p>
+  <h1 class="hero-title">{{ site.hero.title }}</h1>
+  <p class="hero-subtitle">{{ site.hero.subtitle }}</p>
+  <div class="hero-actions">
+    <a class="btn btn-dark" href="{{ '/blog/' | relative_url }}">阅读文章</a>
+    <a class="btn btn-ghost" href="{{ '/about/' | relative_url }}">关于我 →</a>
+  </div>
+</section>
+
+{% assign featured = site.posts.first %}
+{% if featured %}
+<section class="container section">
+  <a class="featured-card" href="{{ featured.url | relative_url }}">
+    <div class="featured-visual" aria-hidden="true">
+      <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="62" /><path d="M100 20 L112 88 L180 100 L112 112 L100 180 L88 112 L20 100 L88 88 Z"/></svg>
+    </div>
+    <div class="featured-body">
+      <span class="tag">最新 · {{ featured.category | default: "文章" }}</span>
+      <h2>{{ featured.title }}</h2>
+      <p>{{ featured.description | default: featured.excerpt | strip_html | strip_newlines | truncate: 140 }}</p>
+      <time datetime="{{ featured.date | date_to_xmlschema }}">{{ featured.date | date: "%Y年%m月%d日" }}</time>
+    </div>
+  </a>
+</section>
+{% endif %}
+
+<section class="container section">
+  <div class="section-head">
+    <h2>近期文章</h2>
+    <a class="link-arrow" href="{{ '/blog/' | relative_url }}">查看全部 →</a>
+  </div>
+  <div class="post-grid">
+    {% for post in site.posts offset: 1 limit: 6 %}
+      {% include post-card.html post=post %}
+    {% else %}
+      <p class="muted">更多文章即将到来。</p>
+    {% endfor %}
+  </div>
+</section>
+
+{{ content }}

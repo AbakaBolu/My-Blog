@@ -1,0 +1,63 @@
+# ============================================================
+#  站点基础配置 —— 修改这里的内容即可个性化你的博客
+#  注意：修改本文件后，本地预览需要重启 jekyll serve 才会生效
+# ============================================================
+
+title: 我的博客
+author: 你的名字
+description: 记录思考、技术与生活的个人博客。
+lang: zh-CN
+timezone: Asia/Shanghai
+
+# 部署地址
+# - 仓库名为 "用户名.github.io"：url 填 https://用户名.github.io，baseurl 留空 ""
+# - 仓库名为其他名字（如 blog）：url 同上，baseurl 填 "/blog"
+url: "https://yourname.github.io"
+baseurl: ""
+
+# 首页大标题区域
+hero:
+  eyebrow: 个人博客
+  title: 在这里，认真思考，慢慢写作。
+  subtitle: 关于技术、阅读与生活的长期记录。每一篇文章，都是一次把想法说清楚的尝试。
+
+# 顶部导航
+nav:
+  - title: 文章
+    url: /blog/
+  - title: 关于
+    url: /about/
+
+# 页脚社交链接（不需要的留空即可）
+social:
+  github: yourname
+  email: you@example.com
+
+# 文章网址格式
+permalink: /:year/:month/:title/
+
+# Markdown 与代码高亮
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+highlighter: rouge
+
+# GitHub Pages 官方支持的插件
+plugins:
+  - jekyll-feed      # 自动生成 RSS：/feed.xml
+  - jekyll-seo-tag   # 自动生成 SEO 标签
+
+# 文章默认设置
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor

@@ -1,0 +1,7 @@
+{% assign p = include.post %}
+<a class="post-card" href="{{ p.url | relative_url }}">
+  {% if p.category %}<span class="tag">{{ p.category }}</span>{% endif %}
+  <h3>{{ p.title }}</h3>
+  <p>{{ p.description | default: p.excerpt | strip_html | strip_newlines | truncate: 90 }}</p>
+  <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%Y年%m月%d日" }}</time>
+</a>

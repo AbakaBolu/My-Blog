@@ -1,0 +1,30 @@
+---
+layout: default
+title: 文章
+permalink: /blog/
+---
+<section class="container page-hero">
+  <p class="eyebrow">归档</p>
+  <h1 class="hero-title small">全部文章</h1>
+  <p class="hero-subtitle">共 {{ site.posts.size }} 篇，按时间倒序排列。</p>
+</section>
+
+<section class="container archive">
+  {% assign years = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
+  {% for year in years %}
+  <div class="archive-year">
+    <h2>{{ year.name }}</h2>
+    <ul>
+      {% for post in year.items %}
+      <li>
+        <a href="{{ post.url | relative_url }}">
+          <time>{{ post.date | date: "%m月%d日" }}</time>
+          <span class="archive-title">{{ post.title }}</span>
+          {% if post.category %}<span class="tag">{{ post.category }}</span>{% endif %}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+</section>

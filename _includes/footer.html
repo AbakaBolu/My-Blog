@@ -1,0 +1,28 @@
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a class="logo logo-light" href="{{ '/' | relative_url }}">
+        <svg class="logo-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/></svg>
+        <span>{{ site.title }}</span>
+      </a>
+      <p>{{ site.description }}</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h4>浏览</h4>
+        <a href="{{ '/' | relative_url }}">首页</a>
+        {% for item in site.nav %}<a href="{{ item.url | relative_url }}">{{ item.title }}</a>{% endfor %}
+      </div>
+      <div>
+        <h4>联系</h4>
+        {% if site.social.github %}<a href="https://github.com/{{ site.social.github }}" target="_blank" rel="noopener">GitHub</a>{% endif %}
+        {% if site.social.email %}<a href="mailto:{{ site.social.email }}">Email</a>{% endif %}
+        <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+      </div>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© {{ site.time | date: "%Y" }} {{ site.author }}</span>
+    <span>Built with Jekyll · Hosted on GitHub Pages</span>
+  </div>
+</footer>

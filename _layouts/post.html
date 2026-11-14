@@ -1,0 +1,39 @@
+---
+layout: default
+---
+{% assign chars = content | strip_html | strip_newlines | size %}
+{% assign minutes = chars | divided_by: 400 | plus: 1 %}
+<article class="post">
+  <header class="post-header container-narrow">
+    <a class="back-link" href="{{ '/blog/' | relative_url }}">← 全部文章</a>
+    {% if page.category %}<span class="tag">{{ page.category }}</span>{% endif %}
+    <h1 class="post-title">{{ page.title }}</h1>
+    {% if page.description %}<p class="post-lead">{{ page.description }}</p>{% endif %}
+    <div class="post-meta">
+      <span>{{ page.author | default: site.author }}</span>
+      <span>·</span>
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y年%m月%d日" }}</time>
+      <span>·</span>
+      <span>约 {{ minutes }} 分钟阅读</span>
+    </div>
+  </header>
+
+  <div class="prose container-narrow">
+    {{ content }}
+  </div>
+
+  {% if page.tags.size > 0 %}
+  <div class="container-narrow post-tags">
+    {% for tag in page.tags %}<span class="tag tag-outline"># {{ tag }}</span>{% endfor %}
+  </div>
+  {% endif %}
+
+  <nav class="post-nav container-narrow">
+    {% if page.previous %}
+      <a class="post-nav-item" href="{{ page.previous.url | relative_url }}"><small>上一篇</small><span>{{ page.previous.title }}</span></a>
+    {% else %}<span></span>{% endif %}
+    {% if page.next %}
+      <a class="post-nav-item next" href="{{ page.next.url | relative_url }}"><small>下一篇</small><span>{{ page.next.title }}</span></a>
+    {% endif %}
+  </nav>
+</article>
